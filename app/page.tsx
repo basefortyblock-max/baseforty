@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { provider } from './providers';
+import { Providers } from './providers';
 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
