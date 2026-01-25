@@ -10,15 +10,13 @@ export const metadata: Metadata = {
   description: 'Type 40 characters, generate, earn $B40B on Base',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import { Providers } from '../src/providers';
+
+export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <head><meta name="base:app_id" content="694f1e08c63ad876c90814df" /></head>
-      <body className={inter.className}>
+    <html>
+<head><meta name="base:app_id" content="694f1e08c63ad876c90814df" /></head>
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>
