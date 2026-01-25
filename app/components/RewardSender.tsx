@@ -24,12 +24,11 @@ export function useGaslessReward() {
   const sendReward = async (amount: number = 40) => {
     if (!walletClient || !address) return;
 
-    // Gunakan wallet_sendCalls dengan paymaster
-    await walletClient.request({
+    await (walletClient as any).request({
       method: 'wallet_sendCalls',
       params: [{
         version: '1.0',
-        chainId: '0x2105', // Base Mainnet
+        chainId: '0x2105',
         from: address,
         calls: [{
           to: B40B_CONTRACT,
