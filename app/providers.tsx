@@ -8,7 +8,7 @@ import { base, baseSepolia } from 'wagmi/chains';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import { ReactNode } from 'react';
 
-const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || '';
+const projectId = process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || '';
 const isProduction = process.env.NODE_ENV === 'production';
 
 const config = getDefaultConfig({
