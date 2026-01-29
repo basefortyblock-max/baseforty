@@ -1,0 +1,1 @@
+export const DATA_SUFFIX = "bc_32osqa5m";

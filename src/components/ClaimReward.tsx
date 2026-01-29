@@ -6,7 +6,7 @@ import { base } from "wagmi/chains";
 import { DATA_SUFFIX } from "../config/builderCode";
 
 const B40B_CONTRACT = "0x76edfdf2c9ead7b542e4d2ea618bf5dc5ad6a958";
-const PAYMASTER_URL = "https://api.developer.coinbase.com/rpc/v1/base/knKJ1H6JBiS9CAqAqgaEcb20BTsBEuUn";
+const PAYMASTER_URL = "/api/paymaster";
 
 const b40bAbi = [
   {
