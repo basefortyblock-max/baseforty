@@ -224,7 +224,9 @@ export default function BasefortyDApp() {
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-white">Baseforty</h1>
-            <p className="text-gray-300">Block #{progress?.totalBlocks + 1 || 1}</p>
+            <p className="text-gray-300">
+  Block #{progress ? progress.totalBlocks + 1 : 1}
+</p>
           </div>
           <ConnectButton />
         </div>
