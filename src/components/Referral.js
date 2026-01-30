@@ -5,12 +5,13 @@ export default function Referral({ address, backendUrl, progress }) {
 
   useEffect(() => {
     async function fetchCode() {
-      const res = await fetch(`${backendUrl}/referral-code?address=${address}`);
+      // Perbaikan: tambah /api dan ubah address → walletAddress
+      const res = await fetch(`${backendUrl}/api/referral/code?walletAddress=${address}`);
       const data = await res.json();
       setCode(data.code);
     }
     if (address) fetchCode();
-  }, [address]);
+  }, [address, backendUrl]);
 
   const referralLink = `https://baseforty.vercel.app?ref=${code}`;
 

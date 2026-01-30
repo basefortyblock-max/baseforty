@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useAccount } from "wagmi";
 
-const BACKEND_URL = "https://baseforty-backend.vercel.app"; // Ganti dengan URL backend Anda
+const BACKEND_URL = "https://baseforty-backend.vercel.app"; 
 
 export function ClaimReward() {
   const { address, isConnected } = useAccount();
@@ -20,7 +20,7 @@ export function ClaimReward() {
     setResult(null);
 
     try {
-      const response = await fetch(`${BACKEND_URL}/api/farming/claim-early`, {
+      const response = await fetch(`${BACKEND_URL}/api/claim/early`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ walletAddress: address }),
