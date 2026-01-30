@@ -1,15 +1,9 @@
-import { http, createConfig } from "wagmi";
-import { base } from "wagmi/chains";
-import { coinbaseWallet } from "wagmi/connectors";
+import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { base, baseSepolia } from 'wagmi/chains';
 
-export const config = createConfig({
-  chains: [base],
-  connectors: [
-    coinbaseWallet({
-      appName: "Baseforty",
-    }),
-  ],
-  transports: {
-    [base.id]: http(),
-  },
+export const config = getDefaultConfig({
+  appName: 'Baseforty',
+  projectId: 'fe43b759ba0320df1d33cc7102343123', // dari https://dashboard.reown.com/
+  chains: [base, baseSepolia],
+  ssr: true,
 });

@@ -4,13 +4,16 @@ const nextConfig = {
     config.resolve.fallback = {
       ...config.resolve.fallback,
       'pino-pretty': false,
+      encoding: false,
+    };
+    config.externals.push('pino-pretty', 'encoding');
+    
+    // Fix untuk @react-native-async-storage
+    config.resolve.alias = {
+      ...config.resolve.alias,
       '@react-native-async-storage/async-storage': false,
     };
-    config.externals.push(
-      'pino-pretty',
-      'encoding',
-      '@react-native-async-storage/async-storage'
-    );
+    
     return config;
   },
 };
