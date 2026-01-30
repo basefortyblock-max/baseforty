@@ -1,53 +1,51 @@
 "use client";
 
-import { useSendCalls } from "wagmi";
-import { encodeFunctionData } from "viem";
-import { base } from "wagmi/chains";
-import { DATA_SUFFIX } from "../config/builderCode";
+import { useState } from "react";
+import { useAccount } from "wagmi";
 
-const B40B_CONTRACT = "0x76edfdf2c9ead7b542e4d2ea618bf5dc5ad6a958";
-const PAYMASTER_URL = "/api/paymaster";
-
-const b40bAbi = [
-  {
-    name: "claimReward",
-    type: "function",
-    stateMutability: "nonpayable",
-    inputs: [],
-    outputs: [],
-  },
-] as const;
+const BACKEND_URL = "https://baseforty-backend.vercel.app"; // Ganti dengan URL backend Anda
 
 export function ClaimReward() {
-  const { sendCalls, isPending, isSuccess } = useSendCalls();
+  const { address, isConnected } = useAccount();
+  const [isPending, setIsPending] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
 
   async function handleClaim() {
-    sendCalls({
-      calls: [
-        {
-          to: B40B_CONTRACT,
-          data: encodeFunctionData({
-            abi: b40bAbi,
-            functionName: "claimReward",
-          }),
-        },
-      ],
-      chainId: base.id,
-      capabilities: {
-        paymasterService: {
-          url: PAYMASTER_URL,
-        },
-        dataSuffix: {
-          value: DATA_SUFFIX,
-          optional: true,
-        },
-      },
-    });
+    if (!address) {
+      setResult("Please connect wallet first");
+      return;
+    }
+
+    setIsPending(true);
+    setResult(null);
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/farming/claim-early`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ walletAddress: address }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setResult(`✅ Claimed ${data.amount} B40B! Slot #${data.slot} (${data.remaining} slots remaining)`);
+      } else {
+        setResult(`❌ ${data.error}`);
+      }
+    } catch (error) {
+      setResult("❌ Gagal konek ke backend. Cek apakah server jalan");
+    } finally {
+      setIsPending(false);
+    }
   }
 
   return (
-    <button onClick={handleClaim} disabled={isPending}>
-      {isPending ? "Claiming..." : "Claim $B40B Reward"}
-    </button>
+    <div>
+      <button onClick={handleClaim} disabled={isPending || !isConnected}>
+        {isPending ? "Claiming..." : "Claim 100$ B40B"}
+      </button>
+      {result && <p>{result}</p>}
+    </div>
   );
 }
