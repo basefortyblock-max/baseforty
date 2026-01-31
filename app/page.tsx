@@ -26,7 +26,7 @@ export default function BasefortyDApp() {
   const [error, setError] = useState('');
   const [timeRemaining, setTimeRemaining] = useState(40 * 60);
 
-  // Fetch progress setiap connect atau setelah action
+  // Fetch progress every connect or after action
   const fetchProgress = async () => {
     if (!address) return;
     try {
@@ -34,13 +34,13 @@ export default function BasefortyDApp() {
       const data = await res.json();
       if (data.success) {
         setProgress(data.progress);
-        // Reset timer jika baru mulai block
+        // Reset timer if just starting a block
         if (data.progress.linesCompleted === 0) {
           setTimeRemaining(40 * 60);
         }
       }
     } catch (err) {
-      setError('Gagal konek ke backend. Cek apakah server jalan.');
+      setError('Failed to connect to backend. Check if server is running.');
       console.error(err);
     }
   };
@@ -61,7 +61,7 @@ export default function BasefortyDApp() {
     }
   }, [status, timeRemaining]);
 
-  // Auto-refresh progress setiap 10 detik (opsional)
+  // Auto-refresh progress every 10 seconds (optional)
   useEffect(() => {
     if (isConnected) {
       const interval = setInterval(fetchProgress, 10000);
@@ -82,12 +82,12 @@ export default function BasefortyDApp() {
       if (data.success) {
         setError('');
         fetchProgress();
-        alert(`Sukses! 100 $B40B dikirim ke wallet kamu. Tx: ${data.txHash}`);
+        alert(`Success! 100 $B40B sent to your wallet. Tx: ${data.txHash}`);
       } else {
-        setError(data.error || 'Gagal claim bonus');
+        setError(data.error || 'Failed to claim bonus');
       }
     } catch (err) {
-      setError('Gagal claim. Coba lagi nanti.');
+      setError('Failed to claim. Try again later.');
     } finally {
       setStatus('idle');
     }
@@ -97,7 +97,7 @@ export default function BasefortyDApp() {
     if (!address || currentLine.length !== 40) return;
     const unique = new Set(currentLine).size === 40;
     if (!unique) {
-      setError('Karakter harus 40 unik semua');
+      setError('Characters must be 40 unique');
       return;
     }
 
@@ -119,10 +119,10 @@ export default function BasefortyDApp() {
           setTimeout(() => setStatus('typing'), 5000);
         }
       } else {
-        setError(data.error || data.message || 'Gagal submit');
+        setError(data.error || data.message || 'Failed to submit');
       }
     } catch (err) {
-      setError('Gagal submit. Backend mungkin down.');
+      setError('Failed to submit. Backend might be down.');
     } finally {
       setStatus('typing');
     }
@@ -142,7 +142,7 @@ export default function BasefortyDApp() {
       const data = await res.json();
 
       if (data.success) {
-        alert(`AI berhasil generate: ${data.generated}`);
+        alert(`AI successfully generated: ${data.generated}`);
         setAiMessage('');
         fetchProgress();
         if (data.blockComplete) {
@@ -150,10 +150,10 @@ export default function BasefortyDApp() {
           setTimeout(() => setStatus('typing'), 5000);
         }
       } else {
-        setError(data.error || 'Gagal generate AI');
+        setError(data.error || 'Failed to generate AI');
       }
     } catch (err) {
-      setError('Gagal generate. Coba pesan lain.');
+      setError('Failed to generate. Try another message.');
     } finally {
       setStatus('typing');
     }
@@ -163,12 +163,12 @@ export default function BasefortyDApp() {
     if (progress?.referralCode) {
       const link = `https://baseforty.vercel.app?ref=${progress.referralCode}`;
       navigator.clipboard.writeText(link);
-      alert('Link referral disalin!');
+      alert('Referral link copied!');
     }
   };
 
   if (!isConnected) {
-    // Bagian landing page kamu (sudah bagus, aku biarin hampir sama)
+    // Landing page section (already good, keeping it almost the same)
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-black flex items-center justify-center p-4">
         <div className="text-center max-w-3xl">
@@ -193,7 +193,7 @@ export default function BasefortyDApp() {
             <ConnectButton />
           </div>
 
-          {/* Feature cards tetap */}
+          {/* Feature cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
             <div className="bg-gray-800 backdrop-blur-lg rounded-xl p-6 border border-gray-600 shadow-xl hover:bg-gray-700 transition-all">
               <div className="text-3xl mb-3">⌨️</div>
@@ -216,7 +216,7 @@ export default function BasefortyDApp() {
     );
   }
 
-  // Halaman utama setelah connect
+  // Main page after connect
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-black p-4 md:p-6">
       <div className="max-w-4xl mx-auto">
@@ -233,9 +233,9 @@ export default function BasefortyDApp() {
 
         {!progress?.claimedEarly && (
           <div className="bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl p-6 mb-6 text-center shadow-2xl">
-            <h2 className="text-3xl font-bold text-white mb-3">Early User Bonus Masih Tersedia!</h2>
+            <h2 className="text-3xl font-bold text-white mb-3">Early User Bonus Still Available!</h2>
             <p className="text-xl text-white mb-4">
-              Claim <span className="font-bold text-yellow-200">100 $B40B</span> sekarang (hanya untuk 1600 user pertama)
+              Claim <span className="font-bold text-yellow-200">100 $B40B</span> now (only for the first 1600 users)
             </p>
             <button
               onClick={claimEarlyBonus}
@@ -252,15 +252,15 @@ export default function BasefortyDApp() {
           <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 mb-6 border border-white border-opacity-20">
             <h3 className="text-xl font-bold text-white mb-3">Referral Program</h3>
             <p className="text-gray-300 mb-2">
-              Undang teman, dapat bonus besar: 40 → 400 → 4000 → 40000 $B40B
+              Invite friends, get big bonuses: 40 → 400 → 4000 → 40000 $B40B
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1">
-                <p className="text-sm text-gray-400">Kode Referral Kamu:</p>
+                <p className="text-sm text-gray-400">Your Referral Code:</p>
                 <p className="text-2xl font-bold text-yellow-400 break-all">{progress.referralCode || 'Loading...'}</p>
               </div>
               <div className="flex-1">
-                <p className="text-sm text-gray-400">Jumlah Undangan:</p>
+                <p className="text-sm text-gray-400">Total Referrals:</p>
                 <p className="text-2xl font-bold text-green-400">{progress.referralCount}</p>
               </div>
             </div>
@@ -268,7 +268,7 @@ export default function BasefortyDApp() {
               onClick={copyReferralLink}
               className="mt-4 w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700"
             >
-              Copy Link Referral
+              Copy Referral Link
             </button>
           </div>
         )}
@@ -277,13 +277,13 @@ export default function BasefortyDApp() {
         <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 mb-6 border border-white border-opacity-20">
           <div className="flex justify-between items-start mb-4">
             <div>
-              <p className="text-gray-300 text-sm mb-1">Progres Kamu</p>
+              <p className="text-gray-300 text-sm mb-1">Your Progress</p>
               <p className="text-4xl font-bold text-white">
                 {progress?.linesCompleted || 0} / 40
               </p>
             </div>
             <div className="text-right">
-              <p className="text-gray-300 text-sm mb-1">Waktu Tersisa</p>
+              <p className="text-gray-300 text-sm mb-1">Time Remaining</p>
               <p className="text-3xl font-bold text-yellow-400">
                 {Math.floor(timeRemaining / 60)}:{(timeRemaining % 60).toString().padStart(2, '0')}
               </p>
@@ -330,7 +330,7 @@ export default function BasefortyDApp() {
                 value={currentLine}
                 onChange={(e) => setCurrentLine(e.target.value)}
                 maxLength={40}
-                placeholder="Ketik 40 karakter unik..."
+                placeholder="Type 40 unique characters..."
                 className="w-full bg-gray-900 text-white p-4 rounded-lg border-2 border-blue-500 focus:border-blue-400"
               />
               <div className="mt-2 text-sm text-gray-400 flex justify-between">
@@ -350,7 +350,7 @@ export default function BasefortyDApp() {
               <textarea
                 value={aiMessage}
                 onChange={(e) => setAiMessage(e.target.value)}
-                placeholder="Ceritakan apa yang bikin kamu bahagia hari ini..."
+                placeholder="Tell us what made you happy today..."
                 className="w-full bg-gray-900 text-white p-4 rounded-lg border-2 border-green-500 focus:border-green-400"
                 rows={4}
               />
