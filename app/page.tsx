@@ -172,7 +172,7 @@ export default function BasefortyDApp() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-black flex items-center justify-center p-4">
         <div className="text-center max-w-3xl">
-          <div className="text-7xl mb-6">🎯</div>
+          <div className="text-7xl mb-6">😊</div> 
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">Baseforty</h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-6">
             Express your happiness. Type 40 characters, earn $B40B.
