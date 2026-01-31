@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     siteName: 'Baseforty',
     images: [
       {
-        url: '/og-image.png', // Tambahkan gambar OG di /public kalau belum ada
+        url: '/og-image.png', 
         width: 1200,
         height: 630,
         alt: 'Baseforty - Proof of Happiness',
@@ -42,21 +42,18 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
-    apple: '/apple-icon.png', // Optional kalau ada
+    apple: '/apple-icon.png', 
   },
-  manifest: '/site.webmanifest', // Optional kalau punya PWA
+  manifest: '/site.webmanifest', 
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* JANGAN DIHAPUS: Ini untuk Base.dev analytics */}
-        <meta name="base:app_id" content="696c89e8c0ab25addaaaf3a1" />
-        
-        {/* Optional: Tambah viewport & theme color */}
+        <meta name="base:app_id" content="696c89e8c0ab25addaaaf3a1" />            
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <meta name="theme-color" content="#4f46e5" /> {/* Warna purple dari gradient kamu */}
+        <meta name="theme-color" content="#4f46e5" /> 
       </head>
       <body
         className={`${inter.variable} font-sans antialiased bg-gradient-to-br from-blue-950 via-purple-950 to-black min-h-screen`}
