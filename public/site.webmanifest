@@ -1,0 +1,7 @@
+{
+  "name": "Baseforty",
+  "short_name": "Baseforty",
+  "icons": [],
+  "start_url": "/",
+  "display": "standalone"
+}

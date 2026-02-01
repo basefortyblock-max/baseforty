@@ -1,10 +1,10 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { ConnectWallet } from '@coinbase/onchainkit/wallet';
 import { ClaimReward } from "../components/ClaimReward";
 
 export default function Home() {
   return (
     <main>
-      <ConnectButton />
+      <ConnectWallet />
       <ClaimReward />
     </main>
   );

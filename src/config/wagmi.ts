@@ -1,9 +1,18 @@
-import { getDefaultConfig } from '@rainbow-me/rainbowkit';
-import { base, baseSepolia } from 'wagmi/chains';
+import { http, createConfig, createStorage, cookieStorage } from 'wagmi';
+import { base } from 'wagmi/chains';
+import { coinbaseWallet } from 'wagmi/connectors';
 
-export const config = getDefaultConfig({
-  appName: 'Baseforty',
-  projectId: 'fe43b759ba0320df1d33cc7102343123', 
-  chains: [base, baseSepolia],
+export const config = createConfig({
+  chains: [base],
+  connectors: [
+    coinbaseWallet({
+      appName: 'Baseforty',
+      preference: 'smartWalletOnly',
+    }),
+  ],
+  storage: createStorage({ storage: cookieStorage }),
   ssr: true,
+  transports: {
+    [base.id]: http(),
+  },
 });
