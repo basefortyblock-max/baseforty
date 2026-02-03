@@ -1,51 +1,42 @@
 "use client";
 
-import { useState } from "react";
-import { useAccount } from "wagmi";
-
-const NEXT_PUBLIC_BACKEND_URL = "https://baseforty-backend.vercel.app"; 
+import { useState } from 'react';
+import { useAccount } from 'wagmi';
 
 export function ClaimReward() {
   const { address, isConnected } = useAccount();
-  const [isPending, setIsPending] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<any>(null);
 
-  async function handleClaim() {
-    if (!address) {
-      setResult("Please connect wallet first");
-      return;
-    }
-
-    setIsPending(true);
-    setResult(null);
-
+  async function claimReward() {
+    if (!address) return;
+    
+    setLoading(true);
     try {
-      const response = await fetch(`${NEXT_PUBLIC_BACKEND_URL}/api/claim/early`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ walletAddress: address }),
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/claim-reward`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userAddress: address, amount: '10' })
       });
-
       const data = await response.json();
-
-      if (data.success) {
-        setResult(`✅ Claimed ${data.amount} B40B! Slot #${data.slot} (${data.remaining} slots remaining)`);
-      } else {
-        setResult(`❌ ${data.error}`);
-      }
+      setResult(data);
     } catch (error) {
-      setResult("❌ Gagal konek ke backend. Cek apakah server jalan");
+      console.error('Claim error:', error);
     } finally {
-      setIsPending(false);
+      setLoading(false);
     }
+  }
+
+  if (!isConnected) {
+    return <p>Connect wallet first</p>;
   }
 
   return (
     <div>
-      <button onClick={handleClaim} disabled={isPending || !isConnected}>
-        {isPending ? "Claiming..." : "Claim 100$ B40B"}
+      <button onClick={claimReward} disabled={loading}>
+        {loading ? 'Claiming...' : 'Claim Reward'}
       </button>
-      {result && <p>{result}</p>}
+      {result && <p>Success: {result.txHash}</p>}
     </div>
   );
 }
