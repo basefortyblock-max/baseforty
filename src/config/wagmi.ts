@@ -7,7 +7,7 @@ export const config = createConfig({
   connectors: [
     coinbaseWallet({
       appName: 'Baseforty',
-      preference: 'smartWalletOnly',
+      preference: 'all', 
     }),
   ],
   storage: createStorage({ storage: cookieStorage }),

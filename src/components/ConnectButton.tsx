@@ -1,24 +1,23 @@
 "use client";
 
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { Wallet, ConnectWallet, WalletDropdown, WalletDropdownDisconnect } from '@coinbase/onchainkit/wallet';
+import { Avatar, Name, Address, Identity } from '@coinbase/onchainkit/identity';
 
 export function ConnectButton() {
-  const { address, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
-  const { disconnect } = useDisconnect();
-
-  if (isConnected) {
-    return (
-      <div>
-        <p>Connected: {address?.slice(0, 6)}...{address?.slice(-4)}</p>
-        <button onClick={() => disconnect()}>Disconnect</button>
-      </div>
-    );
-  }
-
   return (
-    <button onClick={() => connect({ connector: connectors[0] })}>
-      Connect Wallet
-    </button>
+    <Wallet>
+      <ConnectWallet>
+        <Avatar className="h-6 w-6" />
+        <Name />
+      </ConnectWallet>
+      <WalletDropdown>
+        <Identity hasCopyAddressOnClick>
+          <Avatar />
+          <Name />
+          <Address />
+        </Identity>
+        <WalletDropdownDisconnect />
+      </WalletDropdown>
+    </Wallet>
   );
 }
