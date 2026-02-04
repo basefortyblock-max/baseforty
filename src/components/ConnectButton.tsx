@@ -1,6 +1,12 @@
-"use client";
+// src/components/ConnectButton.tsx
+'use client';
 
-import { Wallet, ConnectWallet, WalletDropdown, WalletDropdownDisconnect } from '@coinbase/onchainkit/wallet';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
 import { Avatar, Name, Address, Identity } from '@coinbase/onchainkit/identity';
 
 export function ConnectButton() {
@@ -11,7 +17,7 @@ export function ConnectButton() {
         <Name />
       </ConnectWallet>
       <WalletDropdown>
-        <Identity hasCopyAddressOnClick>
+        <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
           <Avatar />
           <Name />
           <Address />
