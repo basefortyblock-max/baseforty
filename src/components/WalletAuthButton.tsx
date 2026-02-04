@@ -23,11 +23,11 @@ export function WalletAuthButton() {
 
   // Connected state
   if (isConnected && address) {
-    const walletDisplay = {
-      base_account: { name: 'Base Account', icon: '🟦' },
-      embedded: { name: 'Embedded Wallet', icon: '📱' },
-    }[walletType] || { name: 'Connected', icon: '✅' };
-
+  const walletDisplay = {
+    base_account: { name: 'Base Account', icon: '🟦' },
+    embedded: { name: 'Embedded Wallet', icon: '📱' },
+    none: { name: 'Connected', icon: '✅' },  // Add this line
+  }[walletType];
     return (
       <div className="flex items-center space-x-3 px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
         <span>{walletDisplay.icon}</span>
