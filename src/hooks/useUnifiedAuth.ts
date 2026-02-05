@@ -11,17 +11,19 @@ export function useUnifiedAuth() {
   const { connect, connectors } = useConnect();
   const { disconnect: wagmiDisconnect } = useDisconnect();
 
-  // CDP hooks for embedded wallet - these work with CDPHooksProvider
-  const { signInWithEmail, isLoading: isSigningIn } = useSignInWithEmail();
-  const { verifyEmailOTP, isLoading: isVerifying } = useVerifyEmailOTP();
+  // CDP hooks - tanpa isLoading (tidak tersedia di API)
+  const { signInWithEmail } = useSignInWithEmail();
+  const { verifyEmailOTP } = useVerifyEmailOTP();
   const { isSignedIn: cdpSignedIn } = useIsSignedIn();
   const { evmAddress: cdpAddress } = useEvmAddress();
   const { signOut } = useSignOut();
 
+  // Manual loading states
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
   const [walletType, setWalletType] = useState<WalletType>('none');
   const [flowId, setFlowId] = useState<string>('');
 
-  // Determine which wallet is active and prioritize the active one
   const address = wagmiConnected ? wagmiAddress : cdpAddress;
   const isConnected = wagmiConnected || cdpSignedIn;
 
@@ -43,29 +45,31 @@ export function useUnifiedAuth() {
   };
 
   const signInWithEmbeddedWallet = async (email: string) => {
+    setIsSigningIn(true);
     try {
       const response = await signInWithEmail({ email });
-
-      // Capture flowId for OTP verification
       if (response && typeof response === 'object' && 'flowId' in response) {
         setFlowId(response.flowId as string);
       }
-
       return true;
     } catch (error) {
       console.error('Failed to sign in with email:', error);
       return false;
+    } finally {
+      setIsSigningIn(false);
     }
   };
 
   const verifyOtpAndConnect = async (otp: string) => {
+    setIsVerifying(true);
     try {
-      // With CDPReactProvider, verifyEmailOTP automatically signs the user in
       await verifyEmailOTP({ flowId, otp });
       return true;
     } catch (error) {
       console.error('Failed to verify OTP:', error);
       return false;
+    } finally {
+      setIsVerifying(false);
     }
   };
 
@@ -73,7 +77,6 @@ export function useUnifiedAuth() {
     if (wagmiConnected) {
       wagmiDisconnect();
     }
-
     if (cdpSignedIn || walletType === 'embedded') {
       try {
         await signOut();
