@@ -1,5 +1,6 @@
 // app/layout.tsx
 import { Providers } from '@/src/providers/Providers';
+// @ts-ignore
 import '@coinbase/onchainkit/styles.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';

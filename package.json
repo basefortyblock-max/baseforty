@@ -1,7 +1,10 @@
 {
-  "name": "baseforty-dapp",
+  "name": "baseforty",
   "version": "1.0.0",
   "private": true,
+  "overrides": {
+    "@base-org/account": "latest"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,7 +12,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@base-org/account": "^2.5.1",
+    "@base-org/account": "latest",
     "@coinbase/cdp-core": "^0.0.80",
     "@coinbase/cdp-hooks": "^0.0.80",
     "@coinbase/onchainkit": "^0.38.19",
