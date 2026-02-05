@@ -1,26 +1,27 @@
 'use client';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
-import { base } from 'viem/chains';
+import { 
+  ConnectWallet, 
+  Wallet, 
+  WalletDropdown, 
+  WalletDropdownDisconnect 
+} from '@coinbase/onchainkit/wallet';
+import { Avatar, Name, Address, Identity } from '@coinbase/onchainkit/identity';
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function ConnectButton() {
   return (
-    <OnchainKitProvider
-      apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
-      chain={base}
-      config={{
-        appearance: {
-          name: 'Baseforty',
-          mode: 'auto',
-          theme: 'default',
-        },
-        wallet: {
-          display: 'modal', // Tambahkan ini!
-          termsUrl: 'https://...',
-          privacyUrl: 'https://...',
-        },
-      }}
-    >
-      {children}
-    </OnchainKitProvider>
+    <Wallet>
+      <ConnectWallet>
+        <Avatar className="h-6 w-6" />
+        <Name />
+      </ConnectWallet>
+      <WalletDropdown>
+        <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+          <Avatar />
+          <Name />
+          <Address />
+        </Identity>
+        <WalletDropdownDisconnect />
+      </WalletDropdown>
+    </Wallet>
   );
 }
