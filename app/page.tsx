@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
-import { ConnectButton } from '@/src/components/ConnectButton';
-import { ClaimReward } from '@/src/components/ClaimReward';
+import { ConnectButton } from '../src/components/ConnectButton';
+import { ClaimReward } from '../src/components/ClaimReward';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
