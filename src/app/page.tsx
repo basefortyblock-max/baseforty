@@ -1,8 +1,9 @@
 // app/page.tsx
 'use client';
 
-import { WalletAuthButton } from '../components/WalletAuthButton';
-import { SendTransaction } from '../components/SendTransaction';
+import { WalletAuthButton } from '@/src/components/WalletAuthButton';
+import {ConnectButton} from "@/src/components/ConnectButton";
+import { SendTransaction } from '@/src/components/SendTransaction';
 import { useAccount } from 'wagmi';
 
 export default function HomePage() {
