@@ -2,7 +2,7 @@
 'use client';
 
 import { WalletAuthButton } from '@/src/components/WalletAuthButton';
-import {ConnectButton} from "@/src/components/ConnectButton";
+import { ConnectButton } from "@/src/components/ConnectButton";
 import { SendTransaction } from '@/src/components/SendTransaction';
 import { useAccount } from 'wagmi';
 
