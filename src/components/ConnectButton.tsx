@@ -7,7 +7,7 @@ import {
 } from '@coinbase/onchainkit/wallet';
 import { Avatar, Name, Address, Identity } from '@coinbase/onchainkit/identity';
 
-export function ConnectButton() {
+export const ConnectButton() {
   return (
     <Wallet>
       <ConnectWallet>
