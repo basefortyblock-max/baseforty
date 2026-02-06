@@ -1,8 +1,8 @@
 'use client';
+import { sdk } from '@farcaster/miniapp-sdk';
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '../src/components/ConnectButton';
-import { ClaimReward } from '../src/components/ClaimReward';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
@@ -26,7 +26,12 @@ export default function BasefortyDApp() {
   const [error, setError] = useState('');
   const [timeRemaining, setTimeRemaining] = useState(40 * 60);
 
-  // Fetch progress every connect or after action
+  // Initialize Mini App SDK
+  useEffect(() => {
+    sdk.actions.ready();
+  }, []);
+
+  // Fetch progress
   const fetchProgress = async () => {
     if (!address) return;
     try {
@@ -34,7 +39,6 @@ export default function BasefortyDApp() {
       const data = await res.json();
       if (data.success) {
         setProgress(data.progress);
-        // Reset timer if just starting a block
         if (data.progress.linesCompleted === 0) {
           setTimeRemaining(40 * 60);
         }
@@ -61,7 +65,7 @@ export default function BasefortyDApp() {
     }
   }, [status, timeRemaining]);
 
-  // Auto-refresh progress every 10 seconds (optional)
+  // Auto-refresh progress
   useEffect(() => {
     if (isConnected) {
       const interval = setInterval(fetchProgress, 10000);
@@ -168,16 +172,15 @@ export default function BasefortyDApp() {
   };
 
   if (!isConnected) {
-    // Landing page section (already good, keeping it almost the same)
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-black flex items-center justify-center p-4">
+        {/* Landing page - kode sama seperti sebelumnya */}
         <div className="text-center max-w-3xl">
           <div className="text-7xl mb-6">😊</div> 
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">Baseforty</h1>
           <p className="text-xl md:text-2xl text-gray-300 mb-6">
             Express your happiness. Type 40 characters, earn $B40B.
           </p>
-
           <div className="bg-gradient-to-r from-yellow-500 to-orange-500 rounded-2xl p-6 mb-8 shadow-2xl border-2 border-yellow-400">
             <div className="flex items-center justify-center gap-3 mb-2">
               <span className="text-4xl">🎁</span>
@@ -188,12 +191,9 @@ export default function BasefortyDApp() {
               First 1,600 Users Get <span className="text-yellow-200 text-3xl">100 $B40B</span>
             </p>
           </div>
-
           <div className="mb-8">
             <ConnectButton />
           </div>
-
-          {/* Feature cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
             <div className="bg-gray-800 backdrop-blur-lg rounded-xl p-6 border border-gray-600 shadow-xl hover:bg-gray-700 transition-all">
               <div className="text-3xl mb-3">⌨️</div>
@@ -216,7 +216,7 @@ export default function BasefortyDApp() {
     );
   }
 
-  // Main page after connect
+  // Main page after connect - kode sama seperti sebelumnya
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-black p-4 md:p-6">
       <div className="max-w-4xl mx-auto">
