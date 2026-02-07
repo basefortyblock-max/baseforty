@@ -8,7 +8,7 @@ export function getConfig() {
     chains: [baseSepolia, base],
     connectors: [
       baseAccount({
-        appName: process.env.NEXT_PUBLIC_APP_NAME || 'Your App',
+        appName: process.env.NEXT_PUBLIC_APP_NAME || 'Baseforty',
       }),
     ],
     storage: createStorage({
