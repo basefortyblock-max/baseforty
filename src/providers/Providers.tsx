@@ -18,9 +18,14 @@ export function Providers({ children }: { children: ReactNode }) {
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
           chain={baseSepolia}
           config={{
-            wallet: {
-              display: 'modal', // Gunakan modal OnchainKit
+            appearance: {
+              name: 'Baseforty',           
+              mode: 'auto',                
+              theme: 'default',            
             },
+            wallet: {
+              display: 'modal',
+                          },
           }}
         >
           {children}
