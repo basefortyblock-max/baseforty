@@ -68,6 +68,30 @@ Proof of Humanity is a manual input of 40 random characters by the user, validat
 - Web3 wallet (MetaMask, Coinbase Wallet, etc.)
 - Base network configured
 
+### Connecting Frontend to Backend
+
+The frontend (`baseforty`) connects to the backend (`Baseforty-backend`). To run locally:
+
+1. **Start the backend** (in a separate terminal):
+   ```bash
+   cd Baseforty-backend
+   cp .env.example .env
+   # Edit .env with Supabase, CDP, and OpenAI keys if needed
+   npm run dev
+   ```
+   Backend runs at `http://localhost:3001`.
+
+2. **Start the frontend**:
+   ```bash
+   cd baseforty
+   cp .env.example .env.local
+   # Ensure NEXT_PUBLIC_BACKEND_URL=http://localhost:3001 (default)
+   npm run dev
+   ```
+   Frontend runs at `http://localhost:3000`.
+
+3. **Environment variable**: `NEXT_PUBLIC_BACKEND_URL` points the frontend to the backend API. Default is `http://localhost:3001`.
+
 ## Contributing
 
 We welcome contributions! Here's how you can help:

@@ -2,26 +2,29 @@
 
 import { useState } from 'react';
 import { useAccount } from 'wagmi';
+import { BACKEND_URL } from '../config/backend';
 
 export function ClaimReward() {
   const { address, isConnected } = useAccount();
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<{ success?: boolean; txHash?: string; error?: string } | null>(null);
 
   async function claimReward() {
     if (!address) return;
-    
+
     setLoading(true);
+    setResult(null);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/claim-reward`, {
+      const response = await fetch(`${BACKEND_URL}/api/claim/early`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userAddress: address, amount: '10' })
+        body: JSON.stringify({ walletAddress: address }),
       });
       const data = await response.json();
       setResult(data);
     } catch (error) {
       console.error('Claim error:', error);
+      setResult({ success: false, error: 'Failed to connect to backend' });
     } finally {
       setLoading(false);
     }

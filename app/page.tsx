@@ -3,8 +3,7 @@ import { sdk } from '@farcaster/miniapp-sdk';
 import { useState, useEffect } from 'react';
 import { useAccount } from 'wagmi';
 import { ConnectButton } from '../src/components/ConnectButton';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+import { BACKEND_URL } from '../src/config/backend';
 
 interface Progress {
   linesCompleted: number;
@@ -31,11 +30,17 @@ export default function BasefortyDApp() {
     sdk.actions.ready();
   }, []);
 
-  // Fetch progress
+  // Start session and fetch progress
   const fetchProgress = async () => {
     if (!address) return;
     try {
-      const res = await fetch(`${API_URL}/api/progress?walletAddress=${address}`);
+      // Ensure backend session exists before submitting lines
+      await fetch(`${BACKEND_URL}/api/session/start`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ walletAddress: address }),
+      });
+      const res = await fetch(`${BACKEND_URL}/api/progress?walletAddress=${address}`);
       const data = await res.json();
       if (data.success) {
         setProgress(data.progress);
@@ -77,7 +82,7 @@ export default function BasefortyDApp() {
     if (!address) return;
     try {
       setStatus('submitting');
-      const res = await fetch(`${API_URL}/api/claim/early`, {
+      const res = await fetch(`${BACKEND_URL}/api/claim/early`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ walletAddress: address }),
@@ -108,7 +113,7 @@ export default function BasefortyDApp() {
     try {
       setStatus('submitting');
       setError('');
-      const res = await fetch(`${API_URL}/api/line/submit`, {
+      const res = await fetch(`${BACKEND_URL}/api/line/submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ walletAddress: address, line: currentLine }),
@@ -138,7 +143,7 @@ export default function BasefortyDApp() {
     try {
       setStatus('submitting');
       setError('');
-      const res = await fetch(`${API_URL}/api/line/ai`, {
+      const res = await fetch(`${BACKEND_URL}/api/line/ai`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ walletAddress: address, happinessMessage: aiMessage }),
