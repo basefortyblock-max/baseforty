@@ -8,15 +8,15 @@
     "version": "1",
     "name": "Baseforty",
     "subtitle": "Express Your Happiness",
-    "description": "Type 40 unique characters or share happiness to earn B40B token on Base.",
+    "description": "Type 40 unique characters or share happiness to earn B40B token on Base",
     "iconUrl": "https://baseforty.vercel.app/icon.png",
     "splashImageUrl": "https://baseforty.vercel.app/splash-image.png",
     "splashBackgroundColor": "#4f46e5",
     "homeUrl": "https://baseforty.vercel.app",
-    "primaryCategory": "social",
-    "tags": ["earn", "typing", "base"],
+    "primaryCategory": "utility",
+    "tags": ["earn", "typing", "poh", "poh-props-id", "base"],
     "heroImageUrl": "https://baseforty.vercel.app/hero-image.png",
-    "tagline": "Type happiness and Earn B40B token",
+    "tagline": "Express Joy",
     "screenshotUrls": []
   }
 }
